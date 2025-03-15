@@ -11,6 +11,7 @@ import com.example.prm392_final_project.model.ResponseModel;
 import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.RegisterRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,15 +31,21 @@ public class AuthRepository {
         apiService.login(request).enqueue(new Callback<ResponseModel<TokenData>>() {
             @Override
             public void onResponse(Call<ResponseModel<TokenData>> call, Response<ResponseModel<TokenData>> response) {
-                if (response.isSuccessful() && response.body() != null
-                        && response.body().getResult() != null
-                        && response.body().getResult().getData() != null) {  // ✅ Fix: Access `data`
+                Log.d("LOGIN_DEBUG", "Response Code: " + response.code());
 
-                    TokenData tokenData = response.body().getResult().getData(); // ✅ Correctly get data
-                    loginData.setValue(tokenData);
-                    Log.d("LOGIN_SUCCESS", "Token: " + tokenData.getAccessToken());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("LOGIN_DEBUG", "Raw Response: " + new Gson().toJson(response.body()));
+
+                    if (response.body().getResult() != null && response.body().getResult().getData() != null) {
+                        TokenData tokenData = response.body().getResult().getData(); // ✅ Fix extraction
+                        loginData.setValue(tokenData);
+                        Log.d("LOGIN_SUCCESS", "Access Token: " + tokenData.getAccessToken());
+                    } else {
+                        Log.e("LOGIN_ERROR", "Result or Data is null");
+                        loginData.setValue(null);
+                    }
                 } else {
-                    Log.e("LOGIN_ERROR", "Response Failed: " + response.code());
+                    Log.e("LOGIN_ERROR", "Login failed. Response Code: " + response.code());
                     loginData.setValue(null);
                 }
             }
@@ -52,6 +59,8 @@ public class AuthRepository {
 
         return loginData;
     }
+
+
 
 
 

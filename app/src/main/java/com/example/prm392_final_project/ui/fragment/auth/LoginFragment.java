@@ -4,6 +4,7 @@ package com.example.prm392_final_project.ui.fragment.auth;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class LoginFragment extends Fragment {
             }
 
             authViewModel.login(email, password).observe(getViewLifecycleOwner(), tokenData -> {
+                Log.d("LOGIN_FRAGMENT", "Received tokenData: " + (tokenData != null ? "NOT NULL" : "NULL"));
+
                 if (tokenData != null) {
                     Toast.makeText(getActivity(), "Login Successful!", Toast.LENGTH_SHORT).show();
 

@@ -1,5 +1,6 @@
 package com.example.prm392_final_project.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,10 +30,15 @@ public class AuthActivity extends AppCompatActivity {
         // Check if user is already logged in
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         String token = preferences.getString("access_token", null);
+        // Clear stored token
+
         if (token != null) {
-            startActivity(new Intent(this, MainActivity.class));
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("access_token"); // Remove token
+            editor.apply();
+            /*startActivity(new Intent(this, MainActivity.class));
             finish();
-            return;
+            return;*/
         }
 
         setContentView(R.layout.activity_auth);
