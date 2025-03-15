@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.prm392_final_project.api.ApiService;
 import com.example.prm392_final_project.api.RetrofitClient;
 import com.example.prm392_final_project.model.ResponseModel;
+import com.example.prm392_final_project.model.ResultWrapper;
+import com.example.prm392_final_project.model.User;
 import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.RegisterRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
@@ -24,41 +26,29 @@ public class AuthRepository {
         apiService = RetrofitClient.getApiService();
     }
 
-    public LiveData<TokenData> login(String email, String password) {
-        MutableLiveData<TokenData> loginData = new MutableLiveData<>();
+    public LiveData<TokenData> loginUser(String email, String password) {
+        MutableLiveData<TokenData> loginResult = new MutableLiveData<>();
         LoginRequest request = new LoginRequest(email, password);
 
         apiService.login(request).enqueue(new Callback<ResponseModel<TokenData>>() {
             @Override
             public void onResponse(Call<ResponseModel<TokenData>> call, Response<ResponseModel<TokenData>> response) {
-                Log.d("LOGIN_DEBUG", "Response Code: " + response.code());
-
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("LOGIN_DEBUG", "Raw Response: " + new Gson().toJson(response.body()));
-
-                    if (response.body().getResult() != null && response.body().getResult().getData() != null) {
-                        TokenData tokenData = response.body().getResult().getData(); // ✅ Fix extraction
-                        loginData.setValue(tokenData);
-                        Log.d("LOGIN_SUCCESS", "Access Token: " + tokenData.getAccessToken());
-                    } else {
-                        Log.e("LOGIN_ERROR", "Result or Data is null");
-                        loginData.setValue(null);
-                    }
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
+                    loginResult.postValue(response.body().getResult().getData());
                 } else {
-                    Log.e("LOGIN_ERROR", "Login failed. Response Code: " + response.code());
-                    loginData.setValue(null);
+                    loginResult.postValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseModel<TokenData>> call, Throwable t) {
-                Log.e("LOGIN_ERROR", "API Call Failed: " + t.getMessage());
-                loginData.setValue(null);
+                loginResult.postValue(null);
             }
         });
 
-        return loginData;
+        return loginResult;
     }
+
 
 
 

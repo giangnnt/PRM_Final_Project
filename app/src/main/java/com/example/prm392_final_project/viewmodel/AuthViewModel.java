@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.prm392_final_project.model.ResponseModel;
+import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
 import com.example.prm392_final_project.repository.AuthRepository;
 
@@ -16,7 +17,7 @@ public class AuthViewModel extends ViewModel {
     }
 
     public LiveData<TokenData> login(String email, String password) {
-        return authRepository.login(email, password);
+        return authRepository.loginUser(email, password);
     }
 
     public LiveData<Boolean> register(String fullName, String email, String password, String phoneNumber, String avatarUrl) {
