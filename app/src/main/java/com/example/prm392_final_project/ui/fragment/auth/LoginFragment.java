@@ -1,6 +1,7 @@
 package com.example.prm392_final_project.ui.fragment.auth;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,14 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.prm392_final_project.R;
 import com.example.prm392_final_project.model.auth.TokenData;
+import com.example.prm392_final_project.repository.AuthRepository;
 import com.example.prm392_final_project.ui.MainActivity;
 import com.example.prm392_final_project.viewmodel.AuthViewModel;
 
 public class LoginFragment extends Fragment {
-    private AuthViewModel authViewModel;
     private EditText etEmail, etPassword;
     private Button btnLogin;
-
+    private AuthRepository authRepository;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,39 +35,38 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.etPassword);
         btnLogin = view.findViewById(R.id.btnLogin);
 
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        authRepository = new AuthRepository();
 
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Email and password cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            authViewModel.login(email, password).observe(getViewLifecycleOwner(), tokenData -> {
-                Log.d("LOGIN_FRAGMENT", "Received tokenData: " + (tokenData != null ? "NOT NULL" : "NULL"));
-
-                if (tokenData != null) {
-                    Toast.makeText(getActivity(), "Login Successful!", Toast.LENGTH_SHORT).show();
-
-                    // Save token to SharedPreferences
-                    SharedPreferences preferences = requireActivity().getSharedPreferences("user_prefs", requireActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("access_token", tokenData.getAccessToken());
-                    editor.apply();
-
-                    // Redirect to MainActivity
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(intent);
-                    requireActivity().finish();
-                } else {
-                    Toast.makeText(getActivity(), "Login Failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+            loginUser(email, password);
         });
 
         return view;
+    }
+    private void loginUser(String email, String password) {
+        authRepository.login(email, password).observe(getViewLifecycleOwner(), tokenData -> {
+            if (tokenData != null) {
+                // Save access token to SharedPreferences
+                SharedPreferences preferences = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("access_token", tokenData.getAccessToken());
+                editor.apply();
+
+                // Navigate to MainActivity
+                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
+            } else {
+                Toast.makeText(requireContext(), "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

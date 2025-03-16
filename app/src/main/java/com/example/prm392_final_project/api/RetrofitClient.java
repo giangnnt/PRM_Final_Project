@@ -1,24 +1,20 @@
 package com.example.prm392_final_project.api;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
+    private static final String BASE_URL = "https://devkid.online/api/";
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://devkid.online/";
 
-    public static Retrofit getRetrofitInstance() {
+    public static Retrofit getClient() {
         if (retrofit == null) {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(logging)
+                    .addInterceptor(interceptor)
                     .build();
 
             retrofit = new Retrofit.Builder()
@@ -29,9 +25,7 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-
     public static ApiService getApiService() {
-        return getRetrofitInstance().create(ApiService.class);
+        return getClient().create(ApiService.class);
     }
 }
-

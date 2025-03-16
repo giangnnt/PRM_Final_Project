@@ -15,6 +15,8 @@ import com.example.prm392_final_project.model.auth.RegisterRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,32 +28,39 @@ public class AuthRepository {
         apiService = RetrofitClient.getApiService();
     }
 
-    public LiveData<TokenData> loginUser(String email, String password) {
-        MutableLiveData<TokenData> loginResult = new MutableLiveData<>();
+    public LiveData<TokenData> login(String email, String password) {
+        MutableLiveData<TokenData> loginData = new MutableLiveData<>();
         LoginRequest request = new LoginRequest(email, password);
 
         apiService.login(request).enqueue(new Callback<ResponseModel<TokenData>>() {
             @Override
             public void onResponse(Call<ResponseModel<TokenData>> call, Response<ResponseModel<TokenData>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
-                    loginResult.postValue(response.body().getResult().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    ResponseModel<TokenData> responseBody = response.body();
+
+                    if (responseBody.hashCode() == 200 && responseBody.getResult() != null) {
+                        TokenData tokenData = responseBody.getResult().getData();
+                        loginData.setValue(tokenData);
+                        Log.d("LOGIN_SUCCESS", "Access Token: " + tokenData.getAccessToken());
+                    } else {
+                        Log.e("LOGIN_ERROR", "API Response is unsuccessful: " + responseBody.getResult());
+                        loginData.setValue(null);
+                    }
                 } else {
-                    loginResult.postValue(null);
+                    Log.e("LOGIN_ERROR", "API Request failed: " + response.code());
+                    loginData.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseModel<TokenData>> call, Throwable t) {
-                loginResult.postValue(null);
+                Log.e("LOGIN_ERROR", "API Call Failed: " + t.getMessage());
+                loginData.setValue(null);
             }
         });
 
-        return loginResult;
+        return loginData;
     }
-
-
-
-
 
 
     public LiveData<Boolean> register(String fullName, String email, String password, String phoneNumber, String avatarUrl) {

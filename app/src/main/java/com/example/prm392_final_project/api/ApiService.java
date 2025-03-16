@@ -16,20 +16,23 @@ import retrofit2.http.*;
 
 public interface ApiService {
     // AUTH
-    @Headers({"Content-Type: application/json"})
-    @POST("api/auth/login")
+    @Headers({
+            "Accept: */*",
+            "Content-Type: application/json;odata.metadata=minimal;odata.streaming=true"
+    })
+    @POST("auth/login")
     Call<ResponseModel<TokenData>> login(@Body LoginRequest loginRequest);
 
     @Headers({"Content-Type: application/json"})
-    @POST("api/auth/register")
+    @POST("auth/register")
     Call<ResponseModel> register(@Body RegisterRequest registerRequest);
 
     // USER
-    @GET("api/users/own")
+    @GET("users/own")
     Call<ResponseModel<User>> getUser(@Header("Authorization") String token);
 
     // COURSE
     @Headers({"accept: */*"})
-    @GET("api/courses/summary")
+    @GET("courses/summary")
     Call<ResponseModel<List<Course>>> getCourses();
 }
