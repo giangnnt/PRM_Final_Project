@@ -1,11 +1,3 @@
-PRM_Final_Project
-
-Giới thiệu
-
-PRM_Final_Project là một ứng dụng Android được phát triển với mục tiêu cung cấp nền tảng học tập trực tuyến, nơi người dùng có thể đăng ký, thanh toán và tham gia các khóa học.
-
-Cấu trúc thư mục
-
 com.example.prm392_final_project
 │── api                     # API và Retrofit Client
 │   ├── ApiService.java
@@ -34,7 +26,7 @@ com.example.prm392_final_project
 │
 │── ui                      # UI (Activity & Fragment)
 │   │── activity            # Activity chính của ứng dụng
-│   │   ├── MainActivity.java
+│   │   ├── MainActivity.java # Lớp Application chính
 │   │   ├── AuthActivity.java
 │   │   ├── CourseDetailActivity.java
 │   │   ├── PaymentActivity.java
@@ -58,7 +50,7 @@ com.example.prm392_final_project
 │   ├── Constants.java
 │   ├── PrefsHelper.java
 │
-└── CourseApp.java           # Lớp Application chính
+└──     
 
 Công nghệ sử dụng
 
