@@ -6,7 +6,7 @@ PRM_Final_Project là một ứng dụng Android được phát triển với m�
 
 Cấu trúc thư mục
 
-com.example.courseapp
+com.example.prm392_final_project
 │── api                     # API và Retrofit Client
 │   ├── ApiService.java
 │   ├── RetrofitClient.java
