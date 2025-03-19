@@ -9,7 +9,6 @@ import com.example.prm392_final_project.api.ApiService;
 import com.example.prm392_final_project.api.RetrofitClient;
 import com.example.prm392_final_project.model.ResponseModel;
 import com.example.prm392_final_project.model.Course;
-import com.example.prm392_final_project.model.ResultWrapper;
 
 import java.util.List;
 

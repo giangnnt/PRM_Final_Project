@@ -3,7 +3,6 @@ package com.example.prm392_final_project.api;
 
 import com.example.prm392_final_project.model.Course;
 import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.ResultWrapper;
 import com.example.prm392_final_project.model.User;
 import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.RegisterRequest;

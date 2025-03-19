@@ -8,8 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.prm392_final_project.api.ApiService;
 import com.example.prm392_final_project.api.RetrofitClient;
 import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.ResultWrapper;
-import com.example.prm392_final_project.model.User;
 import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.RegisterRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
