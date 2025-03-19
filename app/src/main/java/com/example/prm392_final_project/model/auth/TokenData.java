@@ -3,29 +3,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class TokenData {
 
+    @SerializedName("accessToken")
     private String accessToken;
 
-
-    private String refreshToken;
-
-
+    @SerializedName("accessTokenExp")
     private long accessTokenExp;
 
+    @SerializedName("refreshToken")
+    private String refreshToken;
+
+    @SerializedName("refreshTokenExp")
     private long refreshTokenExp;
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public long getAccessTokenExp() {
-        return accessTokenExp;
-    }
-
-    public long getRefreshTokenExp() {
-        return refreshTokenExp;
-    }
+    public String getAccessToken() { return accessToken; }
+    public long getAccessTokenExp() { return accessTokenExp; }
+    public String getRefreshToken() { return refreshToken; }
+    public long getRefreshTokenExp() { return refreshTokenExp; }
 }

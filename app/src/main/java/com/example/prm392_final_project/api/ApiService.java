@@ -17,11 +17,11 @@ import retrofit2.http.*;
 public interface ApiService {
     // AUTH
     @Headers({
-            "Accept: */*",
+            "accept: */*",
             "Content-Type: application/json;odata.metadata=minimal;odata.streaming=true"
     })
     @POST("auth/login")
-    Call<ResponseModel<TokenData>> login(@Body LoginRequest loginRequest);
+    Call<ResponseModel<TokenData>> login(@Body LoginRequest request);
 
     @Headers({"Content-Type: application/json"})
     @POST("auth/register")

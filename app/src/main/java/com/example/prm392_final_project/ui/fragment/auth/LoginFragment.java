@@ -17,10 +17,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.prm392_final_project.R;
+import com.example.prm392_final_project.api.ApiService;
+import com.example.prm392_final_project.api.RetrofitClient;
+import com.example.prm392_final_project.model.ResponseModel;
+import com.example.prm392_final_project.model.auth.LoginRequest;
 import com.example.prm392_final_project.model.auth.TokenData;
 import com.example.prm392_final_project.repository.AuthRepository;
 import com.example.prm392_final_project.ui.MainActivity;
 import com.example.prm392_final_project.viewmodel.AuthViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
     private EditText etEmail, etPassword;
@@ -52,21 +60,44 @@ public class LoginFragment extends Fragment {
         return view;
     }
     private void loginUser(String email, String password) {
-        authRepository.login(email, password).observe(getViewLifecycleOwner(), tokenData -> {
-            if (tokenData != null) {
-                // Save access token to SharedPreferences
-                SharedPreferences preferences = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("access_token", tokenData.getAccessToken());
-                editor.apply();
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<ResponseModel<TokenData>> call = apiService.login(new LoginRequest(email, password));
 
-                // Navigate to MainActivity
-                Intent intent = new Intent(requireActivity(), MainActivity.class);
-                startActivity(intent);
-                requireActivity().finish();
-            } else {
-                Toast.makeText(requireContext(), "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<ResponseModel<TokenData>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<TokenData>> call, Response<ResponseModel<TokenData>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ResponseModel<TokenData> apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        TokenData loginData = apiResponse.getResult().getData();
+                        String token = loginData.getAccessToken();
+
+                        // Save token to SharedPreferences
+                        SharedPreferences preferences = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("access_token", token);
+                        editor.apply();
+
+                        // Show success message
+                        Toast.makeText(requireContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+
+                        // Redirect to MainActivity
+                        Intent intent = new Intent(requireActivity(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(requireContext(), "Login Failed: " + apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Login Request Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<TokenData>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }
