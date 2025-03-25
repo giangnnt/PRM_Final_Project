@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation("com.google.zxing:core:3.5.1")
 
     implementation("androidx.activity:activity:1.9.0")
     implementation(libs.constraintlayout)

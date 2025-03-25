@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.ui;
+package com.example.prm392_final_project.Ui;
 
 import android.os.Bundle;
 

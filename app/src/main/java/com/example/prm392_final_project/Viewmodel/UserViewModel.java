@@ -1,11 +1,10 @@
-package com.example.prm392_final_project.viewmodel;
+package com.example.prm392_final_project.Viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.User;
-import com.example.prm392_final_project.repository.UserRepository;
+import com.example.prm392_final_project.Model.User;
+import com.example.prm392_final_project.Repository.UserRepository;
 
 public class UserViewModel extends ViewModel {
     private final UserRepository userRepository;

@@ -1,5 +1,6 @@
-package com.example.prm392_final_project.adapter;
+package com.example.prm392_final_project.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.prm392_final_project.R;
-import com.example.prm392_final_project.model.Course;
+import com.example.prm392_final_project.Model.Course;
+import com.example.prm392_final_project.Ui.CourseDetailActivity;
+import com.example.prm392_final_project.Ui.OrderActivity;
 
 import java.util.List;
 
@@ -46,6 +49,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.courseImage);
+
+        // Handle item click
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), OrderActivity.class);
+            intent.putExtra("courseId", course.getId());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

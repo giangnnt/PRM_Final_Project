@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.model.auth;
+package com.example.prm392_final_project.Model.Auth;
 
 public class RegisterRequest {
     private String email;

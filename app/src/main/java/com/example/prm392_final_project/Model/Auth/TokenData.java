@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.model.auth;
+package com.example.prm392_final_project.Model.Auth;
 import com.google.gson.annotations.SerializedName;
 
 public class TokenData {

@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.ui.fragment.auth;
+package com.example.prm392_final_project.Ui.Fragment.Auth;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.prm392_final_project.R;
-import com.example.prm392_final_project.viewmodel.AuthViewModel;
+import com.example.prm392_final_project.Viewmodel.AuthViewModel;
 
 
 
