@@ -2,54 +2,79 @@ package com.example.prm392_final_project.Repository;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import com.example.prm392_final_project.Api.ApiResponse;
-import com.example.prm392_final_project.Api.CourseApi;
-import com.example.prm392_final_project.DataModels.Course;
+import com.example.prm392_final_project.Api.ApiService;
+import com.example.prm392_final_project.Api.RetrofitClient;
+import com.example.prm392_final_project.Model.ResponseModel;
+import com.example.prm392_final_project.Model.Course;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CourseRepository {
-    private static final String BASE_URL = "https://devkid.online/";
-    private final CourseApi courseApi;
-
-    public interface CourseCallback {
-        void onSuccess(List<Course> courses);
-        void onError(String errorMessage);
-    }
+    private final ApiService apiService;
 
     public CourseRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        courseApi = retrofit.create(CourseApi.class);
+        apiService = RetrofitClient.getApiService();
     }
 
-    public void fetchCourses(CourseCallback callback) {
-        courseApi.getCourses().enqueue(new Callback<ApiResponse>() {
+    public LiveData<List<Course>> getCourses() {
+        MutableLiveData<List<Course>> courseData = new MutableLiveData<>();
+
+        apiService.getCourses().enqueue(new Callback<ResponseModel<List<Course>>>() {
             @Override
-            public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
-                    callback.onSuccess(response.body().getResult().getData());
+            public void onResponse(Call<ResponseModel<List<Course>>> call, Response<ResponseModel<List<Course>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null
+                        && response.body().getResult().getData() != null) {
+
+                    List<Course> courses = response.body().getResult().getData();
+                    courseData.setValue(courses);
+                    Log.d("COURSE_SUCCESS", "Courses loaded: " + courses.size());
                 } else {
-                    callback.onError("Error: " + response.code());
+                    Log.e("COURSE_ERROR", "Response Failed: " + response.code());
+                    courseData.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                callback.onError("Failed to load courses: " + t.getMessage());
-                Log.e("API_ERROR", t.getMessage());
+            public void onFailure(Call<ResponseModel<List<Course>>> call, Throwable t) {
+                Log.e("COURSE_ERROR", "API Call Failed: " + t.getMessage());
+                courseData.setValue(null);
             }
         });
+
+        return courseData;
+    }
+    public LiveData<Course> getCourseById(UUID courseId) {
+        MutableLiveData<Course> courseData = new MutableLiveData<>();
+        apiService.getCourseById(courseId).enqueue(new Callback<ResponseModel<Course>>() {
+
+            @Override
+            public void onResponse(Call<ResponseModel<Course>> call, Response<ResponseModel<Course>> response) {
+
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
+                    Course course = response.body().getResult().getData();
+                    courseData.setValue(course);
+                    Log.d("COURSE_SUCCESS", "Course loaded: " + course.getName());
+
+                    } else {
+                    Log.e("COURSE_ERROR", "Response Failed: " + response.code());
+                    courseData.setValue(null);
+                    }
+            }
+            @Override
+            public void onFailure(Call<ResponseModel<Course>> call, Throwable t) {
+                Log.e("COURSE_ERROR", "API Call Failed: " + t.getMessage());
+                courseData.setValue(null);
+            }
+        });
+        return courseData;
     }
 }
+
