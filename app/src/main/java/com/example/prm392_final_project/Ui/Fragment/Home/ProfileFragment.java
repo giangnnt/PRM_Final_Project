@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.ui.fragment.home;
+package com.example.prm392_final_project.Ui.Fragment.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,13 +19,11 @@ import android.widget.TextView;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.prm392_final_project.ui.AuthActivity;
-import com.example.prm392_final_project.viewmodel.UserViewModel;
+import com.example.prm392_final_project.Ui.AuthActivity;
+import com.example.prm392_final_project.Viewmodel.UserViewModel;
 
 import android.util.Log;
 import android.widget.Toast;
-
-import com.example.prm392_final_project.model.User;
 
 public class ProfileFragment extends Fragment {
     private UserViewModel userViewModel;

@@ -1,21 +1,16 @@
-package com.example.prm392_final_project.repository;
+package com.example.prm392_final_project.Repository;
 
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.prm392_final_project.api.ApiService;
-import com.example.prm392_final_project.api.RetrofitClient;
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.ResultWrapper;
-import com.example.prm392_final_project.model.User;
-import com.example.prm392_final_project.model.auth.LoginRequest;
-import com.example.prm392_final_project.model.auth.RegisterRequest;
-import com.example.prm392_final_project.model.auth.TokenData;
-import com.google.gson.Gson;
-
-import java.io.IOException;
+import com.example.prm392_final_project.Api.ApiService;
+import com.example.prm392_final_project.Api.RetrofitClient;
+import com.example.prm392_final_project.Model.ResponseModel;
+import com.example.prm392_final_project.Model.Auth.LoginRequest;
+import com.example.prm392_final_project.Model.Auth.RegisterRequest;
+import com.example.prm392_final_project.Model.Auth.TokenData;
 
 import retrofit2.Call;
 import retrofit2.Callback;

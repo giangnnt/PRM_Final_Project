@@ -1,16 +1,12 @@
-package com.example.prm392_final_project.viewmodel;
+package com.example.prm392_final_project.Viewmodel;
 
-
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.auth.LoginRequest;
-import com.example.prm392_final_project.model.auth.TokenData;
-import com.example.prm392_final_project.repository.AuthRepository;
+import com.example.prm392_final_project.Model.Auth.TokenData;
+import com.example.prm392_final_project.Repository.AuthRepository;
 
 public class AuthViewModel extends ViewModel {
     private final AuthRepository authRepository;

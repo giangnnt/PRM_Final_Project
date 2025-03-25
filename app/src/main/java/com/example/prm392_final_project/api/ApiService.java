@@ -1,15 +1,16 @@
-package com.example.prm392_final_project.api;
+package com.example.prm392_final_project.Api;
 
 
-import com.example.prm392_final_project.model.Course;
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.ResultWrapper;
-import com.example.prm392_final_project.model.User;
-import com.example.prm392_final_project.model.auth.LoginRequest;
-import com.example.prm392_final_project.model.auth.RegisterRequest;
-import com.example.prm392_final_project.model.auth.TokenData;
+import com.example.prm392_final_project.Model.Course;
+import com.example.prm392_final_project.Model.PaymentResponse;
+import com.example.prm392_final_project.Model.ResponseModel;
+import com.example.prm392_final_project.Model.User;
+import com.example.prm392_final_project.Model.Auth.LoginRequest;
+import com.example.prm392_final_project.Model.Auth.RegisterRequest;
+import com.example.prm392_final_project.Model.Auth.TokenData;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -35,4 +36,16 @@ public interface ApiService {
     @Headers({"accept: */*"})
     @GET("courses/summary")
     Call<ResponseModel<List<Course>>> getCourses();
+
+    @Headers({"accept: */*"})
+    @GET("courses/{courseId}/summary")
+    Call<ResponseModel<Course>> getCourseById(@Path("courseId") UUID courseId);
+
+    //ORDER
+    @Headers({"accept: */*"})
+    @POST("orders/payment-url")
+    Call<ResponseModel<PaymentResponse>> getPaymentResponse(
+            @Header("Authorization") String token,
+            @Query("courseId") UUID courseId);
+
 }

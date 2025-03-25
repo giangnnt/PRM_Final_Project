@@ -1,11 +1,10 @@
-package com.example.prm392_final_project.ui.fragment.home;
+package com.example.prm392_final_project.Ui.Fragment.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,29 +15,17 @@ import com.example.prm392_final_project.R;
 
 import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm392_final_project.R;
-import com.example.prm392_final_project.adapter.CourseAdapter;
-import com.example.prm392_final_project.model.Course;
-import com.example.prm392_final_project.viewmodel.CourseViewModel;
+import com.example.prm392_final_project.Adapter.CourseAdapter;
+import com.example.prm392_final_project.Model.Course;
+import com.example.prm392_final_project.Viewmodel.CourseViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

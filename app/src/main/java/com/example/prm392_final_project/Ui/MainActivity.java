@@ -1,6 +1,5 @@
-package com.example.prm392_final_project.ui;
+package com.example.prm392_final_project.Ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.prm392_final_project.R;
-import com.example.prm392_final_project.ui.fragment.home.HomeFragment;
-import com.example.prm392_final_project.ui.fragment.home.MyCoursesFragment;
-import com.example.prm392_final_project.ui.fragment.home.ProfileFragment;
+import com.example.prm392_final_project.Ui.Fragment.Home.HomeFragment;
+import com.example.prm392_final_project.Ui.Fragment.Home.MyCoursesFragment;
+import com.example.prm392_final_project.Ui.Fragment.Home.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;

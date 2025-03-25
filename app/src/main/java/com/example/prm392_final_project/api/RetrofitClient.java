@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.api;
+package com.example.prm392_final_project.Api;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -25,7 +25,7 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-    public static ApiService getApiService() {
+    public static com.example.prm392_final_project.Api.ApiService getApiService() {
         return getClient().create(ApiService.class);
     }
 }

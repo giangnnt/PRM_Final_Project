@@ -1,17 +1,17 @@
-package com.example.prm392_final_project.repository;
+package com.example.prm392_final_project.Repository;
 
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.prm392_final_project.api.ApiService;
-import com.example.prm392_final_project.api.RetrofitClient;
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.Course;
-import com.example.prm392_final_project.model.ResultWrapper;
+import com.example.prm392_final_project.Api.ApiService;
+import com.example.prm392_final_project.Api.RetrofitClient;
+import com.example.prm392_final_project.Model.ResponseModel;
+import com.example.prm392_final_project.Model.Course;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,4 +51,30 @@ public class CourseRepository {
 
         return courseData;
     }
+    public LiveData<Course> getCourseById(UUID courseId) {
+        MutableLiveData<Course> courseData = new MutableLiveData<>();
+        apiService.getCourseById(courseId).enqueue(new Callback<ResponseModel<Course>>() {
+
+            @Override
+            public void onResponse(Call<ResponseModel<Course>> call, Response<ResponseModel<Course>> response) {
+
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
+                    Course course = response.body().getResult().getData();
+                    courseData.setValue(course);
+                    Log.d("COURSE_SUCCESS", "Course loaded: " + course.getName());
+
+                    } else {
+                    Log.e("COURSE_ERROR", "Response Failed: " + response.code());
+                    courseData.setValue(null);
+                    }
+            }
+            @Override
+            public void onFailure(Call<ResponseModel<Course>> call, Throwable t) {
+                Log.e("COURSE_ERROR", "API Call Failed: " + t.getMessage());
+                courseData.setValue(null);
+            }
+        });
+        return courseData;
+    }
 }
+

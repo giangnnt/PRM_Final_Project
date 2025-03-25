@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.ui.fragment.home;
+package com.example.prm392_final_project.Ui.Fragment.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

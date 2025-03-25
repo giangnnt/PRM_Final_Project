@@ -1,4 +1,4 @@
-package com.example.prm392_final_project.model;
+package com.example.prm392_final_project.Model;
 
 public class User {
     private String id;

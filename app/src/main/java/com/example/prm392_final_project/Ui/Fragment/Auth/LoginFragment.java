@@ -1,11 +1,10 @@
-package com.example.prm392_final_project.ui.fragment.auth;
+package com.example.prm392_final_project.Ui.Fragment.Auth;
 
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
 import com.example.prm392_final_project.R;
-import com.example.prm392_final_project.api.ApiService;
-import com.example.prm392_final_project.api.RetrofitClient;
-import com.example.prm392_final_project.model.ResponseModel;
-import com.example.prm392_final_project.model.auth.LoginRequest;
-import com.example.prm392_final_project.model.auth.TokenData;
-import com.example.prm392_final_project.repository.AuthRepository;
-import com.example.prm392_final_project.ui.MainActivity;
-import com.example.prm392_final_project.viewmodel.AuthViewModel;
+import com.example.prm392_final_project.Api.ApiService;
+import com.example.prm392_final_project.Api.RetrofitClient;
+import com.example.prm392_final_project.Model.ResponseModel;
+import com.example.prm392_final_project.Model.Auth.LoginRequest;
+import com.example.prm392_final_project.Model.Auth.TokenData;
+import com.example.prm392_final_project.Repository.AuthRepository;
+import com.example.prm392_final_project.Ui.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
